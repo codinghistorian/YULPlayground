@@ -1,0 +1,39 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.17;
+
+contract CalldataExp {
+    function length(uint256[] calldata a) public pure returns (uint256 result) {
+        assembly {
+            result := a.length
+        }
+    }
+// calling fn length with param [1,2,3]
+// 
+//0xb0831b47
+//0000000000000000000000000000000000000000000000000000000000000020 <-when first element will start(dynamic)
+//0000000000000000000000000000000000000000000000000000000000000003 <-length(dynamic)
+//0000000000000000000000000000000000000000000000000000000000000001 <-first ele
+//0000000000000000000000000000000000000000000000000000000000000002
+//0000000000000000000000000000000000000000000000000000000000000003
+
+//result 3
+// meaning there are three elements.  (later should think like, there are 3 bytes32 to deal with
+
+    function offset(uint256[] calldata a) public pure returns (uint256 result) {
+        assembly {
+            result := a.offset
+        }
+    }
+// calling fn length with param [1,2,3]
+//0xced55c84
+//0000000000000000000000000000000000000000000000000000000000000020 <-when first element will start(dynamic)
+//0000000000000000000000000000000000000000000000000000000000000003 <-length(dynamic)
+//0000000000000000000000000000000000000000000000000000000000000001 <-first ele
+//0000000000000000000000000000000000000000000000000000000000000002
+//0000000000000000000000000000000000000000000000000000000000000003    
+
+//result 68
+//offset is where input data starts
+//in thise case 4 bytes(fn sig) + 32 bytes (0x000...20) + 32 bytes (0x000...3).
+
+}
